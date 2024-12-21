@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    
+    <title> Juego </title>
+</head>
+
+<body>
+
+    <label class="switch">
+        <input type="checkbox" id="input">
+        <span class="slider"></span>
+    </label>
+
+    <h1 id="winner">Juego de Dados</h1>
+    <h2 id="subtitle">El primero en llegar en superar los 20 puntos gana</h2>
+    <br>
+    <div id="jugadores">
+    <label>Jugador 1: <input id="name1"></label>
+    <p> Suma: <label id="sum1"> </label></p>
+
+    <label>Jugador 2: <input id="name2"></label>
+    <p> Suma: <label id="sum2"> </label></p>
+    </div>
+    <br>
+    <button id="J1" onclick="getRandomIntInclusive()">Tirar Dados</button><label id="nTurno1"></label>
+    <button id="reset" onclick="resetGame()">Reiniciar Juego</button>
+
+    <br>
+    <h2 id="W"></h2>
+
+
+    <div class="espacio3D">
+        <div class="cubo3D">
+            <div class="base"></div>
+            <aside class="cara cara1"><label id="dado"></label></aside>
+            <aside class="cara cara2"></aside>
+            <aside class="cara cara3"></aside>
+            <aside class="cara cara4"></aside>
+            <aside class="cara cara5"></aside>
+            <aside class="cara cara6"></aside>
+        </div>
+    </div>
+    <script>
+        let score1 = 0;
+        let score2 = 0;
+        let turno = 1;
+        let tablaJ1 = [];
+        let tablaJ2 = [];
+        
+        document.getElementById('input').addEventListener('change', () => {
+            if (document.body.className.indexOf('dark') === -1) {
+                document.body.classList.add('dark');
+            }
+            else {
+                document.body.classList.remove('dark');
+            }
+        });
+
+        function getRandomIntInclusive() {
+            let P1 = document.getElementById("name1").value
+            let P2 = document.getElementById("name2").value
+
+            if (turno === 1) {
+                if (score1 <= 20) {
+                    let num = Math.floor(Math.random() * 6) + 1;
+                    score1 = score1 + num;
+                    document.getElementById("dado").innerHTML = num;
+                    document.getElementById("sum1").innerHTML = score1 +" ";
+                    tablaJ1.push(num);
+                    turno++;
+
+                    var secuencia1 = ''
+                    for (let i = 0; tablaJ1.length>i ; i++)
+                    secuencia1 = secuencia1 + tablaJ1 [i] + "|"
+                    console.log(secuencia1)
+
+                }
+            } else if (turno === 2) {
+                if (score2 <= 20) {
+                    let num = Math.floor(Math.random() * 6) + 1;
+                    score2 = score2 + num;
+                    document.getElementById("dado").innerHTML = num;
+                    document.getElementById("sum2").innerHTML = score2 +" ";
+                    tablaJ2.push(num);
+                    turno--;
+                    
+                    var secuencia2 = ''
+                    for (let i = 0; tablaJ2.length>i ; i++)
+                    secuencia2 = secuencia2 + tablaJ2 [i] + "|"
+                    console.log(secuencia2)
+                }
+            }
+            if (score1 > 20 || score2 > 20) {
+                document.getElementById("winner").innerHTML = "EL JUEGO HA TERMINADO"
+                document.getElementById("J1").disabled = true;
+                if (score1 > score2) {
+                    document.getElementById("W").innerHTML = "EL GANADOR ES " + P1
+                }
+                else if (score2 > score1) {
+                    document.getElementById("W").innerHTML = "EL GANADOR ES " + P2
+                }
+                else {
+                    document.getElementById("W").innerHTML = "EMPATE"
+                }
+            }
+        }
+        function resetGame() {
+        score1 = 0;
+        score2 = 0;
+        turno = 1;
+        tablaJ1 = [];
+        tablaJ2 = [];
+        document.getElementById("sum1").innerHTML = 0;
+        document.getElementById("sum2").innerHTML = 0;
+        document.getElementById("winner").innerHTML = "Juego de Dados";
+        document.getElementById("W").innerHTML = "";
+        document.getElementById("J1").disabled = false;
+}
+        
+    </script>
+</body>
+
+</html>
