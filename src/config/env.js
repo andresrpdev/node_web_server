@@ -4,5 +4,5 @@ env.config()
 
 export const envs={
     PORT:envvar.get("PORT").required().asPortNumber(),
-    PUBLIC_PATH:get("PUBLIC_PATH").default("public").asString()
+    PUBLIC_PATH:envvar.get("PUBLIC_PATH").default("public").asString()
 }
